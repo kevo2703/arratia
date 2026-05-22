@@ -46,7 +46,7 @@ export function ProductoForm({
     <form action={handleSubmit}>
       {producto && <input type="hidden" name="id" value={producto.id} />}
       <Card className="p-6 space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field label="Código" required>
             <input
               name="codigo"
@@ -89,7 +89,7 @@ export function ProductoForm({
             className={inputClasses}
           />
         </Field>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Field label="Marca">
             <input
               name="marca"
@@ -124,7 +124,7 @@ export function ProductoForm({
             />
           </Field>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field label="Precio (S/) sin IGV" required hint="Se aplicará IGV 18% al cotizar">
             <input
               name="precio"
@@ -156,28 +156,30 @@ export function ProductoForm({
         </label>
       </Card>
 
-      <div className="flex justify-between mt-6">
-        <div>
+      <div className="flex flex-col-reverse sm:flex-row sm:justify-between gap-3 mt-6">
+        <div className="flex">
           {producto && (
             <Button
               type="button"
               variant="danger"
               onClick={handleDelete}
               disabled={pending}
+              className="w-full sm:w-auto justify-center"
             >
               <Trash2 size={16} /> Eliminar
             </Button>
           )}
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <Button
             type="button"
             variant="outline"
             onClick={() => router.push("/productos")}
+            className="justify-center"
           >
             Cancelar
           </Button>
-          <Button type="submit" disabled={pending}>
+          <Button type="submit" disabled={pending} className="justify-center">
             {pending ? "Guardando..." : producto ? "Guardar cambios" : "Crear producto"}
           </Button>
         </div>

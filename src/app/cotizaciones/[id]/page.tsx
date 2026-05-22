@@ -83,30 +83,30 @@ export default async function CotizacionDetallePage({
 
   return (
     <AppShell>
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         {/* Header */}
-        <div className="flex items-start justify-between mb-6">
-          <div>
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
+          <div className="min-w-0">
             <Link
               href="/cotizaciones"
               className="text-sm text-[var(--muted-foreground)] hover:underline inline-flex items-center gap-1"
             >
               <ArrowLeft size={14} /> Cotizaciones
             </Link>
-            <h1 className="text-3xl font-extrabold tracking-tight text-[var(--secondary)] mt-2 font-mono">
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[var(--secondary)] mt-2 font-mono break-all">
               {cot.numero}
             </h1>
-            <div className="flex items-center gap-3 mt-2">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-2">
               <Badge variant={estadoVariant[cot.estado]}>
                 {estadoLabel[cot.estado]}
               </Badge>
-              <span className="text-sm text-[var(--muted-foreground)]">
+              <span className="text-xs sm:text-sm text-[var(--muted-foreground)]">
                 Emitida el {formatDate(cot.fecha)} · Válida hasta {formatDate(validUntil)}
               </span>
             </div>
           </div>
-          <Link href={`/cotizaciones/${cot.id}/editar`}>
-            <Button variant="outline">
+          <Link href={`/cotizaciones/${cot.id}/editar`} className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full sm:w-auto justify-center">
               <Pencil size={14} /> Editar
             </Button>
           </Link>
@@ -123,8 +123,8 @@ export default async function CotizacionDetallePage({
         </Card>
 
         {/* Datos cliente + condiciones */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          <Card className="p-5 col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+          <Card className="p-5 lg:col-span-2">
             <h3 className="text-xs font-semibold uppercase tracking-wide text-[var(--muted-foreground)] mb-3">
               Cliente
             </h3>
@@ -176,7 +176,8 @@ export default async function CotizacionDetallePage({
 
         {/* Items */}
         <Card className="mb-6">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[640px]">
             <thead className="bg-[var(--secondary)] text-white">
               <tr>
                 <th className="px-3 py-2 text-left font-semibold w-12">#</th>
@@ -215,18 +216,19 @@ export default async function CotizacionDetallePage({
                       ? `${Number(it.descuento_pct).toFixed(1)}%`
                       : "—"}
                   </td>
-                  <td className="px-3 py-2 text-right font-semibold font-mono">
+                  <td className="px-3 py-2 text-right font-semibold font-mono whitespace-nowrap">
                     {formatMoney(Number(it.subtotal), cot.moneda)}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          </div>
         </Card>
 
         {/* Totales */}
         <div className="flex justify-end mb-6">
-          <Card className="p-5 w-80">
+          <Card className="p-5 w-full sm:w-80">
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-[var(--muted-foreground)]">Subtotal</span>

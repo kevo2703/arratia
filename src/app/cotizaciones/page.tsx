@@ -39,20 +39,21 @@ export default async function CotizacionesPage() {
 
   return (
     <AppShell>
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         <PageHeader
           title="Cotizaciones"
           description="Historial de cotizaciones emitidas"
           actions={
-            <Link href="/cotizaciones/nueva">
-              <Button>
+            <Link href="/cotizaciones/nueva" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto justify-center">
                 <Plus size={16} /> Nueva cotización
               </Button>
             </Link>
           }
         />
         <Card>
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[720px]">
             <thead className="bg-[var(--muted)] text-left">
               <tr>
                 <th className="px-4 py-3 font-semibold">Número</th>
@@ -109,6 +110,7 @@ export default async function CotizacionesPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </Card>
       </div>
     </AppShell>

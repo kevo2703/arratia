@@ -28,7 +28,7 @@ export function EmpresaForm({ empresa }: { empresa: EmpresaConfig }) {
         <h3 className="font-semibold text-sm uppercase tracking-wide text-[var(--muted-foreground)]">
           Datos de la empresa
         </h3>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field label="Razón social" required>
             <input
               name="razon_social"
@@ -45,7 +45,7 @@ export function EmpresaForm({ empresa }: { empresa: EmpresaConfig }) {
             />
           </Field>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Field label="RUC">
             <input
               name="ruc"
@@ -108,7 +108,7 @@ export function EmpresaForm({ empresa }: { empresa: EmpresaConfig }) {
         <p className="text-xs text-[var(--muted-foreground)]">
           Aparecerán en el pie de cada cotización para facilitar el pago.
         </p>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field label="Cuenta BCP">
             <input
               name="banco_bcp"
@@ -145,7 +145,7 @@ export function EmpresaForm({ empresa }: { empresa: EmpresaConfig }) {
       </Card>
 
       <div className="flex justify-end">
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={pending} className="w-full sm:w-auto justify-center">
           {pending ? "Guardando..." : "Guardar configuración"}
         </Button>
       </div>

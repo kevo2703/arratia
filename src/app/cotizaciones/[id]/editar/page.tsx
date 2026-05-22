@@ -34,7 +34,7 @@ export default async function EditarCotizacionPage({
 
   return (
     <AppShell>
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         <CotizacionForm
           cotizacion={{ ...cot, items: items || [] }}
           clientes={clientes || []}

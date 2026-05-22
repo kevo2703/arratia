@@ -14,7 +14,7 @@ export default async function NuevaCotizacionPage() {
 
   return (
     <AppShell>
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         <CotizacionForm clientes={clientes || []} productos={productos || []} />
       </div>
     </AppShell>

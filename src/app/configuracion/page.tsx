@@ -26,7 +26,7 @@ export default async function ConfiguracionPage() {
 
   return (
     <AppShell>
-      <div className="p-8 max-w-4xl">
+      <div className="p-4 md:p-8 max-w-4xl">
         <PageHeader
           title="Configuración"
           description="Datos de Arratia que aparecen en cada cotización"

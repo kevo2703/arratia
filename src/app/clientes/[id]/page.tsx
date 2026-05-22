@@ -23,7 +23,7 @@ export default async function EditarClientePage({
 
   return (
     <AppShell>
-      <div className="p-8 max-w-3xl">
+      <div className="p-4 md:p-8 max-w-3xl">
         <PageHeader
           title="Editar cliente"
           description={cliente.razon_social}

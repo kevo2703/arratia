@@ -17,20 +17,21 @@ export default async function ProductosPage() {
 
   return (
     <AppShell>
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         <PageHeader
           title="Productos"
           description="Catálogo de EPP disponible para cotizar"
           actions={
-            <Link href="/productos/nuevo">
-              <Button>
+            <Link href="/productos/nuevo" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto justify-center">
                 <Plus size={16} /> Nuevo producto
               </Button>
             </Link>
           }
         />
         <Card>
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[800px]">
             <thead className="bg-[var(--muted)] text-left">
               <tr>
                 <th className="px-4 py-3 font-semibold">Código</th>
@@ -85,6 +86,7 @@ export default async function ProductosPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </Card>
       </div>
     </AppShell>

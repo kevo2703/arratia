@@ -155,19 +155,24 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
             <Button
               variant="outline"
               onClick={() => router.push("/cotizaciones")}
+              className="flex-1 sm:flex-initial justify-center"
             >
               Cancelar
             </Button>
-            <Button onClick={handleSubmit} disabled={pending}>
+            <Button
+              onClick={handleSubmit}
+              disabled={pending}
+              className="flex-1 sm:flex-initial justify-center"
+            >
               {pending ? "Guardando..." : cotizacion ? "Guardar cambios" : "Crear cotización"}
             </Button>
           </>
         }
       />
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         {/* COLUMNA IZQUIERDA: Datos cabecera */}
-        <div className="col-span-1 space-y-4">
+        <div className="lg:col-span-1 space-y-4">
           <Card className="p-5 space-y-4">
             <h3 className="font-semibold text-sm uppercase tracking-wide text-[var(--muted-foreground)]">
               Datos generales
@@ -272,10 +277,10 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
         </div>
 
         {/* COLUMNA DERECHA: Items */}
-        <div className="col-span-2 space-y-4">
-          <Card className="p-5">
-            <div className="flex items-end justify-between mb-4">
-              <div>
+        <div className="lg:col-span-2 space-y-4">
+          <Card className="p-4 md:p-5">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
+              <div className="min-w-0">
                 <h3 className="font-semibold text-sm uppercase tracking-wide text-[var(--muted-foreground)]">
                   Productos cotizados
                 </h3>
@@ -283,13 +288,13 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
                   {items.length} {items.length === 1 ? "ítem" : "ítems"}
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <select
                   onChange={(e) => {
                     agregarProducto(e.target.value);
                     e.target.value = "";
                   }}
-                  className={inputClasses + " max-w-xs"}
+                  className={inputClasses + " sm:max-w-xs"}
                   defaultValue=""
                 >
                   <option value="">+ Agregar del catálogo...</option>
@@ -301,7 +306,7 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
                       </option>
                     ))}
                 </select>
-                <Button variant="outline" size="sm" onClick={agregarItemLibre}>
+                <Button variant="outline" size="sm" onClick={agregarItemLibre} className="justify-center">
                   <Plus size={14} /> Ítem libre
                 </Button>
               </div>
@@ -324,46 +329,46 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
                     className="border rounded-lg p-3 bg-[var(--muted)]/30 space-y-2"
                   >
                     <div className="flex items-start gap-2">
-                      <div className="flex flex-col">
+                      <div className="flex sm:flex-col flex-row gap-1">
                         <button
                           type="button"
                           onClick={() => moverItem(idx, -1)}
-                          className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] disabled:opacity-30"
+                          className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] disabled:opacity-30 text-xs"
                           disabled={idx === 0}
                           title="Subir"
                         >
                           ▲
                         </button>
-                        <GripVertical size={14} className="text-[var(--muted-foreground)] my-0.5" />
+                        <GripVertical size={14} className="text-[var(--muted-foreground)] hidden sm:block self-center" />
                         <button
                           type="button"
                           onClick={() => moverItem(idx, 1)}
-                          className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] disabled:opacity-30"
+                          className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] disabled:opacity-30 text-xs"
                           disabled={idx === items.length - 1}
                           title="Bajar"
                         >
                           ▼
                         </button>
                       </div>
-                      <div className="flex-1 grid grid-cols-6 gap-2">
+                      <div className="flex-1 grid grid-cols-1 sm:grid-cols-6 gap-2 min-w-0">
                         <input
                           value={it.codigo}
                           onChange={(e) => actualizarItem(idx, { codigo: e.target.value })}
                           placeholder="Código"
-                          className={inputClasses + " col-span-1 font-mono text-xs"}
+                          className={inputClasses + " sm:col-span-1 font-mono text-xs"}
                         />
                         <input
                           value={it.nombre}
                           onChange={(e) => actualizarItem(idx, { nombre: e.target.value })}
                           placeholder="Nombre del producto"
-                          className={inputClasses + " col-span-5 font-medium"}
+                          className={inputClasses + " sm:col-span-5 font-medium"}
                           required
                         />
                       </div>
                       <button
                         type="button"
                         onClick={() => quitarItem(idx)}
-                        className="text-[var(--destructive)] hover:bg-red-50 p-2 rounded"
+                        className="text-[var(--destructive)] hover:bg-red-50 p-2 rounded shrink-0"
                         title="Quitar ítem"
                       >
                         <Trash2 size={16} />
@@ -377,8 +382,8 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
                       placeholder="Descripción adicional (opcional)"
                       className={inputClasses + " text-xs"}
                     />
-                    <div className="grid grid-cols-12 gap-2 items-end">
-                      <div className="col-span-2">
+                    <div className="grid grid-cols-2 md:grid-cols-12 gap-2 items-end">
+                      <div className="col-span-1 md:col-span-2">
                         <label className="block text-xs text-[var(--muted-foreground)]">
                           Cantidad
                         </label>
@@ -395,7 +400,7 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
                           className={inputClasses}
                         />
                       </div>
-                      <div className="col-span-2">
+                      <div className="col-span-1 md:col-span-2">
                         <label className="block text-xs text-[var(--muted-foreground)]">
                           Unidad
                         </label>
@@ -416,7 +421,7 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
                           <option value="LT">LT</option>
                         </select>
                       </div>
-                      <div className="col-span-3">
+                      <div className="col-span-1 md:col-span-3">
                         <label className="block text-xs text-[var(--muted-foreground)]">
                           P. unitario
                         </label>
@@ -433,7 +438,7 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
                           className={inputClasses}
                         />
                       </div>
-                      <div className="col-span-2">
+                      <div className="col-span-1 md:col-span-2">
                         <label className="block text-xs text-[var(--muted-foreground)]">
                           Desc. %
                         </label>
@@ -451,7 +456,7 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
                           className={inputClasses}
                         />
                       </div>
-                      <div className="col-span-3 text-right">
+                      <div className="col-span-2 md:col-span-3 text-right border-t md:border-t-0 pt-2 md:pt-0 mt-1 md:mt-0">
                         <div className="text-xs text-[var(--muted-foreground)]">Subtotal</div>
                         <div className="font-bold text-lg">
                           {formatMoney(subFinal, moneda)}
@@ -465,9 +470,9 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
           </Card>
 
           {/* TOTALES */}
-          <Card className="p-5">
+          <Card className="p-4 md:p-5">
             <div className="flex justify-end">
-              <div className="w-72 space-y-1 text-sm">
+              <div className="w-full sm:w-72 space-y-1 text-sm">
                 <div className="flex justify-between">
                   <span className="text-[var(--muted-foreground)]">Subtotal</span>
                   <span className="font-mono">{formatMoney(totales.subtotal, moneda)}</span>

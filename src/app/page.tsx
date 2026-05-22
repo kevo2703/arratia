@@ -47,25 +47,25 @@ export default async function DashboardPage() {
 
   return (
     <AppShell>
-      <div className="p-8">
-        <div className="flex justify-between items-end mb-8">
-          <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-[var(--secondary)]">
+      <div className="p-4 md:p-8">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-3 mb-6 md:mb-8">
+          <div className="min-w-0">
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[var(--secondary)]">
               Bienvenido a Arratia
             </h1>
             <p className="text-sm text-[var(--muted-foreground)] mt-1">
               Resumen de actividad y accesos rápidos
             </p>
           </div>
-          <Link href="/cotizaciones/nueva">
-            <Button>
+          <Link href="/cotizaciones/nueva" className="sm:w-auto">
+            <Button className="w-full sm:w-auto justify-center">
               <Plus size={16} /> Nueva cotización
             </Button>
           </Link>
         </div>
 
         {/* KPIs */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 md:mb-8">
           <Card className="p-5">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs uppercase tracking-wide text-[var(--muted-foreground)]">
@@ -135,7 +135,8 @@ export default async function DashboardPage() {
               Ver todas →
             </Link>
           </div>
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[640px]">
             <tbody>
               {recientes?.length === 0 && (
                 <tr>
@@ -179,13 +180,14 @@ export default async function DashboardPage() {
                       {c.estado}
                     </Badge>
                   </td>
-                  <td className="px-5 py-3 text-right font-mono font-semibold">
+                  <td className="px-5 py-3 text-right font-mono font-semibold whitespace-nowrap">
                     {formatMoney(Number(c.total), c.moneda)}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          </div>
         </Card>
       </div>
     </AppShell>
