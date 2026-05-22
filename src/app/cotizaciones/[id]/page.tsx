@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
 import { Pencil, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
@@ -43,6 +44,7 @@ export default async function CotizacionDetallePage({
 }) {
   const { id } = await params;
   const supabase = await createClient();
+  const hdrs = await headers();
 
   const [cotRes, itemsRes, empresaRes] = await Promise.all([
     supabase
@@ -65,7 +67,13 @@ export default async function CotizacionDetallePage({
   if (!cot || !empresa) notFound();
   const cliente = cot.cliente;
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  // Derivar la URL base desde el request actual, no de env vars.
+  // Funciona en local, en Vercel, y en cualquier dominio personalizado sin reconfigurar.
+  const host = hdrs.get("x-forwarded-host") || hdrs.get("host") || "localhost:3000";
+  const proto =
+    hdrs.get("x-forwarded-proto") ||
+    (host.startsWith("localhost") ? "http" : "https");
+  const appUrl = `${proto}://${host}`;
   const pdfUrl = `${appUrl}/api/pdf-public/${cot.id}`;
 
   const validUntil = addDays(
