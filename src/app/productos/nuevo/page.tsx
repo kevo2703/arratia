@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/ui";
 import { ProductoForm } from "@/components/ProductoForm";
 
 export const metadata = { title: "Nuevo producto · Arratia" };
+export const dynamic = "force-dynamic";
 
 export default async function NuevoProductoPage() {
   const supabase = await createClient();

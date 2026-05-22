@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/ui";
 import { ClienteForm } from "@/components/ClienteForm";
 
 export const metadata = { title: "Nuevo cliente · Arratia" };
+export const dynamic = "force-dynamic";
 
 export default function NuevoClientePage() {
   return (
