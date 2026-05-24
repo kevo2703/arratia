@@ -13,6 +13,7 @@ import {
   X,
 } from "lucide-react";
 import { LogoutButton } from "./LogoutButton";
+import { useBrand } from "./BrandContext";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -25,18 +26,33 @@ const nav = [
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
+  const brand = useBrand();
+  const nombre = (brand.nombre_comercial || "Arratia").toUpperCase();
 
   return (
     <div className="min-h-screen md:flex">
       {/* Topbar móvil (oculta en desktop) */}
       <header className="md:hidden bg-[var(--secondary)] text-[var(--secondary-foreground)] flex items-center justify-between px-4 h-14 sticky top-0 z-30 shadow-sm">
-        <div>
-          <span className="text-lg font-extrabold tracking-tight">ARRATIA</span>
-          <span className="text-xs text-white/60 ml-2">Cotizador EPP</span>
+        <div className="flex items-center gap-2 min-w-0">
+          {brand.logo_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={brand.logo_url}
+              alt={nombre}
+              className="h-8 w-auto max-w-[120px] object-contain bg-white/10 rounded px-1"
+            />
+          ) : (
+            <span className="text-lg font-extrabold tracking-tight truncate">
+              {nombre}
+            </span>
+          )}
+          <span className="text-xs text-white/60 truncate hidden sm:inline">
+            Cotizador EPP
+          </span>
         </div>
         <button
           onClick={() => setOpen(true)}
-          className="p-2 hover:bg-white/10 rounded-md"
+          className="p-2 hover:bg-white/10 rounded-md shrink-0"
           aria-label="Abrir menú"
         >
           <Menu size={22} />
@@ -61,14 +77,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
       >
-        <div className="p-6 border-b border-white/10 flex items-start justify-between">
-          <div>
-            <div className="text-xl font-extrabold tracking-tight">ARRATIA</div>
+        <div className="p-6 border-b border-white/10 flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            {brand.logo_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={brand.logo_url}
+                alt={nombre}
+                className="h-12 w-auto max-w-full object-contain bg-white/10 rounded p-1"
+              />
+            ) : (
+              <div className="text-xl font-extrabold tracking-tight truncate">
+                {nombre}
+              </div>
+            )}
             <div className="text-xs text-white/60 mt-1">Cotizador EPP</div>
           </div>
           <button
             onClick={() => setOpen(false)}
-            className="md:hidden p-1 hover:bg-white/10 rounded"
+            className="md:hidden p-1 hover:bg-white/10 rounded shrink-0"
             aria-label="Cerrar menú"
           >
             <X size={20} />

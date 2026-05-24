@@ -15,6 +15,8 @@ export interface EmpresaConfig {
   correo: string;
   whatsapp: string;
   logo_url: string;
+  color_primary: string;
+  color_secondary: string;
   banco_bcp: string;
   banco_interbank: string;
   banco_bbva: string;

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
+import { BrandLoader } from "@/components/BrandLoader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body>
-        {children}
+        <BrandLoader>{children}</BrandLoader>
         <Toaster position="top-right" richColors closeButton />
       </body>
     </html>
