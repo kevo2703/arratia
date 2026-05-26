@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus, Pencil } from "lucide-react";
+import { Plus, Pencil, Upload } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
 import { PageHeader, Card, Button, Badge } from "@/components/ui";
@@ -22,11 +22,18 @@ export default async function ProductosPage() {
           title="Productos"
           description="Catálogo de EPP disponible para cotizar"
           actions={
-            <Link href="/productos/nuevo" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto justify-center">
-                <Plus size={16} /> Nuevo producto
-              </Button>
-            </Link>
+            <>
+              <Link href="/productos/carga-masiva" className="w-full sm:w-auto">
+                <Button variant="outline" className="w-full sm:w-auto justify-center">
+                  <Upload size={16} /> Carga masiva
+                </Button>
+              </Link>
+              <Link href="/productos/nuevo" className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto justify-center">
+                  <Plus size={16} /> Nuevo producto
+                </Button>
+              </Link>
+            </>
           }
         />
         <Card>
