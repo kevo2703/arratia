@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Plus, Pencil, Upload } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
-import { PageHeader, Card, Button, Badge } from "@/components/ui";
+import { PageHeader, Card, ButtonLink, Badge } from "@/components/ui";
 import { formatMoney } from "@/lib/utils";
 
 export const metadata = { title: "Productos · Arratia" };
@@ -23,16 +23,19 @@ export default async function ProductosPage() {
           description="Catálogo de EPP disponible para cotizar"
           actions={
             <>
-              <Link href="/productos/carga-masiva" className="w-full sm:w-auto">
-                <Button variant="outline" className="w-full sm:w-auto justify-center">
-                  <Upload size={16} /> Carga masiva
-                </Button>
-              </Link>
-              <Link href="/productos/nuevo" className="w-full sm:w-auto">
-                <Button className="w-full sm:w-auto justify-center">
-                  <Plus size={16} /> Nuevo producto
-                </Button>
-              </Link>
+              <ButtonLink
+                href="/productos/carga-masiva"
+                variant="outline"
+                className="w-full sm:w-auto justify-center"
+              >
+                <Upload size={16} /> Carga masiva
+              </ButtonLink>
+              <ButtonLink
+                href="/productos/nuevo"
+                className="w-full sm:w-auto justify-center"
+              >
+                <Plus size={16} /> Nuevo producto
+              </ButtonLink>
             </>
           }
         />

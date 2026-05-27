@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FileText, Users, Package, TrendingUp, Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
-import { Card, Button, Badge } from "@/components/ui";
+import { Card, ButtonLink, Badge } from "@/components/ui";
 import { formatMoney, formatDate } from "@/lib/utils";
 import type { Cotizacion } from "@/lib/supabase/types";
 
@@ -57,11 +57,12 @@ export default async function DashboardPage() {
               Resumen de actividad y accesos rápidos
             </p>
           </div>
-          <Link href="/cotizaciones/nueva" className="sm:w-auto">
-            <Button className="w-full sm:w-auto justify-center">
-              <Plus size={16} /> Nueva cotización
-            </Button>
-          </Link>
+          <ButtonLink
+            href="/cotizaciones/nueva"
+            className="w-full sm:w-auto justify-center"
+          >
+            <Plus size={16} /> Nueva cotización
+          </ButtonLink>
         </div>
 
         {/* KPIs */}

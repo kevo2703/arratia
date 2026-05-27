@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Plus, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
-import { PageHeader, Card, Button, Badge } from "@/components/ui";
+import { PageHeader, Card, ButtonLink, Badge } from "@/components/ui";
 import { formatMoney, formatDate } from "@/lib/utils";
 import type { Cotizacion, EstadoCotizacion } from "@/lib/supabase/types";
 
@@ -44,11 +44,12 @@ export default async function CotizacionesPage() {
           title="Cotizaciones"
           description="Historial de cotizaciones emitidas"
           actions={
-            <Link href="/cotizaciones/nueva" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto justify-center">
-                <Plus size={16} /> Nueva cotización
-              </Button>
-            </Link>
+            <ButtonLink
+              href="/cotizaciones/nueva"
+              className="w-full sm:w-auto justify-center"
+            >
+              <Plus size={16} /> Nueva cotización
+            </ButtonLink>
           }
         />
         <Card>

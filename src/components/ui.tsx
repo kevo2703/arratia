@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export function PageHeader({
@@ -66,36 +67,70 @@ export function Field({
 export const inputClasses =
   "w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] bg-white";
 
+type Variant = "primary" | "secondary" | "outline" | "ghost" | "danger";
+type Size = "sm" | "md";
+
+const VARIANT_CLASSES: Record<Variant, string> = {
+  primary: "bg-[var(--primary)] text-white hover:opacity-90",
+  secondary: "bg-[var(--secondary)] text-white hover:opacity-90",
+  outline: "border bg-white hover:bg-[var(--muted)]",
+  ghost: "hover:bg-[var(--muted)]",
+  danger: "bg-[var(--destructive)] text-white hover:opacity-90",
+};
+
+const SIZE_CLASSES: Record<Size, string> = {
+  sm: "px-3 py-1.5 text-xs",
+  md: "px-4 py-2 text-sm",
+};
+
+const BUTTON_BASE =
+  "rounded-md font-semibold transition-opacity disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2 cursor-pointer select-none";
+
 export function Button({
   variant = "primary",
   size = "md",
   className,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
-  size?: "sm" | "md";
+  variant?: Variant;
+  size?: Size;
 }) {
-  const variants = {
-    primary: "bg-[var(--primary)] text-white hover:opacity-90",
-    secondary: "bg-[var(--secondary)] text-white hover:opacity-90",
-    outline: "border bg-white hover:bg-[var(--muted)]",
-    ghost: "hover:bg-[var(--muted)]",
-    danger: "bg-[var(--destructive)] text-white hover:opacity-90",
-  };
-  const sizes = {
-    sm: "px-3 py-1.5 text-xs",
-    md: "px-4 py-2 text-sm",
-  };
   return (
     <button
-      className={cn(
-        "rounded-md font-semibold transition-opacity disabled:opacity-50 inline-flex items-center gap-2",
-        variants[variant],
-        sizes[size],
-        className
-      )}
+      className={cn(BUTTON_BASE, VARIANT_CLASSES[variant], SIZE_CLASSES[size], className)}
       {...props}
     />
+  );
+}
+
+// Link estilizado como Button — toda la superficie es clickeable y tiene cursor-pointer.
+// Úsalo en vez de <Link><Button>...</Button></Link> para que el hitbox cubra todo el botón.
+export function ButtonLink({
+  href,
+  variant = "primary",
+  size = "md",
+  className,
+  children,
+  target,
+  rel,
+}: {
+  href: string;
+  variant?: Variant;
+  size?: Size;
+  className?: string;
+  children: React.ReactNode;
+  target?: string;
+  rel?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      target={target}
+      rel={rel}
+      className={cn(BUTTON_BASE, VARIANT_CLASSES[variant], SIZE_CLASSES[size], className)}
+    >
+      {children}
+    </Link>
   );
 }
 

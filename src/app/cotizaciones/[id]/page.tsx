@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { Pencil, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
-import { Card, Button, Badge } from "@/components/ui";
+import { Card, Button, ButtonLink, Badge } from "@/components/ui";
 import { EnviarCotizacion } from "@/components/EnviarCotizacion";
 import { formatMoney, formatDate, addDays } from "@/lib/utils";
 import type {
@@ -105,11 +105,13 @@ export default async function CotizacionDetallePage({
               </span>
             </div>
           </div>
-          <Link href={`/cotizaciones/${cot.id}/editar`} className="w-full sm:w-auto">
-            <Button variant="outline" className="w-full sm:w-auto justify-center">
-              <Pencil size={14} /> Editar
-            </Button>
-          </Link>
+          <ButtonLink
+            href={`/cotizaciones/${cot.id}/editar`}
+            variant="outline"
+            className="w-full sm:w-auto justify-center"
+          >
+            <Pencil size={14} /> Editar
+          </ButtonLink>
         </div>
 
         {/* Acciones de envío */}

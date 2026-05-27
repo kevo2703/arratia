@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Plus, Pencil } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
-import { PageHeader, Card, Button } from "@/components/ui";
+import { PageHeader, Card, ButtonLink } from "@/components/ui";
 
 export const metadata = { title: "Clientes · Arratia" };
 export const dynamic = "force-dynamic";
@@ -21,11 +21,12 @@ export default async function ClientesPage() {
           title="Clientes"
           description="Base de empresas a las que cotizas"
           actions={
-            <Link href="/clientes/nuevo" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto justify-center">
-                <Plus size={16} /> Nuevo cliente
-              </Button>
-            </Link>
+            <ButtonLink
+              href="/clientes/nuevo"
+              className="w-full sm:w-auto justify-center"
+            >
+              <Plus size={16} /> Nuevo cliente
+            </ButtonLink>
           }
         />
         <Card>
