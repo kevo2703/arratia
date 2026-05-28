@@ -47,6 +47,117 @@ export async function eliminarCliente(id: string) {
   redirect("/clientes");
 }
 
+// ----------- CARGA MASIVA -----------
+export interface FilaClienteInput {
+  ruc: string;
+  razon_social: string;
+  contacto: string;
+  telefono: string;
+  correo: string;
+  direccion: string;
+  notas: string;
+}
+
+export interface ResultadoCargaClientes {
+  insertados: number;
+  actualizados: number;
+  fallidos: number;
+  errores: { ruc: string; mensaje: string }[];
+}
+
+export async function cargarClientesMasivo(
+  filas: FilaClienteInput[]
+): Promise<ResultadoCargaClientes> {
+  if (!filas.length) {
+    return { insertados: 0, actualizados: 0, fallidos: 0, errores: [] };
+  }
+
+  const supabase = await createClient();
+  const ahora = new Date().toISOString();
+
+  // Filas con RUC vs filas sin RUC (no se pueden upsertear por RUC porque BD no tiene UNIQUE en RUC)
+  const conRuc = filas.filter((f) => f.ruc.trim() !== "");
+  const sinRuc = filas.filter((f) => f.ruc.trim() === "");
+
+  let insertados = 0;
+  let actualizados = 0;
+  const errores: { ruc: string; mensaje: string }[] = [];
+
+  // 1. Para los con RUC: buscar cuáles ya existen
+  if (conRuc.length > 0) {
+    const rucs = conRuc.map((f) => f.ruc);
+    const { data: existentes } = await supabase
+      .from("clientes")
+      .select("id, ruc")
+      .in("ruc", rucs);
+    const mapaExistentes = new Map(
+      ((existentes || []) as { id: string; ruc: string }[]).map((c) => [c.ruc, c.id])
+    );
+
+    for (const f of conRuc) {
+      const existingId = mapaExistentes.get(f.ruc);
+      const payload = {
+        ruc: f.ruc,
+        razon_social: f.razon_social,
+        contacto: f.contacto,
+        telefono: f.telefono,
+        correo: f.correo,
+        direccion: f.direccion,
+        notas: f.notas,
+        updated_at: ahora,
+      };
+
+      if (existingId) {
+        const { error } = await supabase
+          .from("clientes")
+          .update(payload)
+          .eq("id", existingId);
+        if (error) {
+          errores.push({ ruc: f.ruc, mensaje: error.message });
+        } else {
+          actualizados++;
+        }
+      } else {
+        const { error } = await supabase.from("clientes").insert(payload);
+        if (error) {
+          errores.push({ ruc: f.ruc, mensaje: error.message });
+        } else {
+          insertados++;
+        }
+      }
+    }
+  }
+
+  // 2. Para los sin RUC: solo insertar (no upsert)
+  if (sinRuc.length > 0) {
+    const payload = sinRuc.map((f) => ({
+      ruc: "",
+      razon_social: f.razon_social,
+      contacto: f.contacto,
+      telefono: f.telefono,
+      correo: f.correo,
+      direccion: f.direccion,
+      notas: f.notas,
+      updated_at: ahora,
+    }));
+    const { error } = await supabase.from("clientes").insert(payload);
+    if (error) {
+      errores.push({ ruc: "(sin RUC)", mensaje: error.message });
+    } else {
+      insertados += sinRuc.length;
+    }
+  }
+
+  revalidatePath("/clientes");
+
+  return {
+    insertados,
+    actualizados,
+    fallidos: errores.length,
+    errores,
+  };
+}
+
 export async function crearClienteRapido(payload: {
   ruc: string;
   razon_social: string;

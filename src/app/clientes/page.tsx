@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus, Pencil } from "lucide-react";
+import { Plus, Pencil, Upload } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
 import { PageHeader, Card, ButtonLink } from "@/components/ui";
@@ -21,12 +21,21 @@ export default async function ClientesPage() {
           title="Clientes"
           description="Base de empresas a las que cotizas"
           actions={
-            <ButtonLink
-              href="/clientes/nuevo"
-              className="w-full sm:w-auto justify-center"
-            >
-              <Plus size={16} /> Nuevo cliente
-            </ButtonLink>
+            <>
+              <ButtonLink
+                href="/clientes/carga-masiva"
+                variant="outline"
+                className="w-full sm:w-auto justify-center"
+              >
+                <Upload size={16} /> Carga masiva
+              </ButtonLink>
+              <ButtonLink
+                href="/clientes/nuevo"
+                className="w-full sm:w-auto justify-center"
+              >
+                <Plus size={16} /> Nuevo cliente
+              </ButtonLink>
+            </>
           }
         />
         <Card>
