@@ -55,6 +55,13 @@ export interface Cliente {
   correo: string;
   direccion: string;
   notas: string;
+  estado: string;
+  condicion: string;
+  ubigeo: string;
+  departamento: string;
+  provincia: string;
+  distrito: string;
+  sunat_consultado_en: string | null;
   created_at: string;
   updated_at: string;
 }

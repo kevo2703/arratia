@@ -3,6 +3,7 @@ import { Plus, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
 import { PageHeader, Card, ButtonLink, Badge } from "@/components/ui";
+import { EliminarCotizacionButton } from "@/components/EliminarCotizacionButton";
 import { formatMoney, formatDate } from "@/lib/utils";
 import type { Cotizacion, EstadoCotizacion } from "@/lib/supabase/types";
 
@@ -63,13 +64,14 @@ export default async function CotizacionesPage() {
                 <th className="px-4 py-3 font-semibold text-right">Total</th>
                 <th className="px-4 py-3 font-semibold text-center">Estado</th>
                 <th className="px-4 py-3"></th>
+                <th className="px-4 py-3 w-12"></th>
               </tr>
             </thead>
             <tbody>
               {cotizaciones?.length === 0 && (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="px-4 py-10 text-center text-[var(--muted-foreground)]"
                   >
                     <FileText className="mx-auto mb-2 opacity-30" size={32} />
@@ -106,6 +108,9 @@ export default async function CotizacionesPage() {
                     >
                       Ver detalle →
                     </Link>
+                  </td>
+                  <td className="px-2 py-3 text-center">
+                    <EliminarCotizacionButton id={c.id} numero={c.numero} />
                   </td>
                 </tr>
               ))}

@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
 import { Card, Button, ButtonLink, Badge } from "@/components/ui";
 import { EnviarCotizacion } from "@/components/EnviarCotizacion";
+import { EliminarCotizacionButton } from "@/components/EliminarCotizacionButton";
 import { formatMoney, formatDate, addDays } from "@/lib/utils";
 import type {
   Cliente,
@@ -105,13 +106,22 @@ export default async function CotizacionDetallePage({
               </span>
             </div>
           </div>
-          <ButtonLink
-            href={`/cotizaciones/${cot.id}/editar`}
-            variant="outline"
-            className="w-full sm:w-auto justify-center"
-          >
-            <Pencil size={14} /> Editar
-          </ButtonLink>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <ButtonLink
+              href={`/cotizaciones/${cot.id}/editar`}
+              variant="outline"
+              className="w-full sm:w-auto justify-center"
+            >
+              <Pencil size={14} /> Editar
+            </ButtonLink>
+            <EliminarCotizacionButton
+              id={cot.id}
+              numero={cot.numero}
+              variant="full"
+              redirectTo="/cotizaciones"
+              className="w-full sm:w-auto justify-center"
+            />
+          </div>
         </div>
 
         {/* Acciones de envío */}

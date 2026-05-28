@@ -6,7 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 
 export async function guardarCliente(formData: FormData) {
   const id = formData.get("id") as string | null;
-  const payload = {
+  const sunatRaw = formData.get("sunat_consultado_en") as string | null;
+  const payload: Record<string, string | null> = {
     ruc: (formData.get("ruc") as string)?.trim() || "",
     razon_social: (formData.get("razon_social") as string).trim(),
     contacto: (formData.get("contacto") as string) || "",
@@ -14,6 +15,13 @@ export async function guardarCliente(formData: FormData) {
     correo: (formData.get("correo") as string) || "",
     direccion: (formData.get("direccion") as string) || "",
     notas: (formData.get("notas") as string) || "",
+    estado: (formData.get("estado") as string) || "",
+    condicion: (formData.get("condicion") as string) || "",
+    ubigeo: (formData.get("ubigeo") as string) || "",
+    departamento: (formData.get("departamento") as string) || "",
+    provincia: (formData.get("provincia") as string) || "",
+    distrito: (formData.get("distrito") as string) || "",
+    sunat_consultado_en: sunatRaw && sunatRaw.length > 0 ? sunatRaw : null,
     updated_at: new Date().toISOString(),
   };
 
