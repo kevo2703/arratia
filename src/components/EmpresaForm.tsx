@@ -113,7 +113,7 @@ export function EmpresaForm({ empresa }: { empresa: EmpresaConfig }) {
       </Card>
 
       {/* Logo */}
-      <Card className="p-6 space-y-4">
+      <Card className="p-6 space-y-4" data-tour="logo-uploader">
         <h3 className="font-semibold text-sm uppercase tracking-wide text-[var(--muted-foreground)]">
           Logo de la empresa
         </h3>
@@ -124,7 +124,7 @@ export function EmpresaForm({ empresa }: { empresa: EmpresaConfig }) {
       </Card>
 
       {/* Colores */}
-      <Card className="p-6 space-y-4">
+      <Card className="p-6 space-y-4" data-tour="color-pickers">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
             <h3 className="font-semibold text-sm uppercase tracking-wide text-[var(--muted-foreground)]">
@@ -255,7 +255,7 @@ export function EmpresaForm({ empresa }: { empresa: EmpresaConfig }) {
         </div>
       </Card>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end" data-tour="guardar-config">
         <Button
           type="submit"
           disabled={pending}

@@ -106,6 +106,19 @@ export interface CotizacionConCliente extends Cotizacion {
   items: CotizacionItem[];
 }
 
+export type OnboardingStepId = "marca" | "cliente" | "producto" | "cotizacion" | "envio";
+
+export interface UserOnboarding {
+  user_id: string;
+  tour_completed: boolean;
+  tour_skipped_at: string | null;
+  first_quote_completed: boolean;
+  checklist_state: Record<string, boolean>;
+  dismissed_hints: string[];
+  created_at: string;
+  updated_at: string;
+}
+
 // Minimal DB type for Supabase typed clients
 type TableDef<T> = {
   Row: T;

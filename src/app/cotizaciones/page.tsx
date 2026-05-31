@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
 import { PageHeader, Card, ButtonLink, Badge } from "@/components/ui";
 import { EliminarCotizacionButton } from "@/components/EliminarCotizacionButton";
+import { EmptyState } from "@/components/EmptyState";
 import { formatMoney, formatDate } from "@/lib/utils";
 import type { Cotizacion, EstadoCotizacion } from "@/lib/supabase/types";
 
@@ -62,6 +63,19 @@ export default async function CotizacionesPage() {
             </>
           }
         />
+        {cotizaciones.length === 0 ? (
+          <Card>
+            <EmptyState
+              Icon={FileText}
+              title="Aún no tienes cotizaciones"
+              description="Empieza creando tu primera cotización. Selecciona un cliente, agrega productos y en un par de clics tendrás un PDF profesional listo para enviar."
+              ctaHref="/cotizaciones/nueva"
+              ctaLabel="Crear primera cotización"
+              secondaryHref="/cotizaciones/carga-masiva"
+              secondaryLabel="Importar histórico (CSV)"
+            />
+          </Card>
+        ) : (
         <Card>
           <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[720px]">
@@ -77,17 +91,6 @@ export default async function CotizacionesPage() {
               </tr>
             </thead>
             <tbody>
-              {cotizaciones?.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={7}
-                    className="px-4 py-10 text-center text-[var(--muted-foreground)]"
-                  >
-                    <FileText className="mx-auto mb-2 opacity-30" size={32} />
-                    Aún no hay cotizaciones. Crea la primera para empezar.
-                  </td>
-                </tr>
-              )}
               {cotizaciones?.map((c) => (
                 <tr key={c.id} className="border-t hover:bg-[var(--muted)]/50">
                   <td className="px-4 py-3 font-mono text-xs font-semibold">
@@ -127,6 +130,7 @@ export default async function CotizacionesPage() {
           </table>
           </div>
         </Card>
+        )}
       </div>
     </AppShell>
   );

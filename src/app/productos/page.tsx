@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Plus, Pencil, Upload } from "lucide-react";
+import { Plus, Pencil, Upload, Package } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
 import { PageHeader, Card, ButtonLink, Badge } from "@/components/ui";
+import { EmptyState } from "@/components/EmptyState";
 import { formatMoney } from "@/lib/utils";
 
 export const metadata = { title: "Productos · Arratia" };
@@ -39,6 +40,19 @@ export default async function ProductosPage() {
             </>
           }
         />
+        {(!productos || productos.length === 0) ? (
+          <Card>
+            <EmptyState
+              Icon={Package}
+              title="Aún no tienes productos en tu catálogo"
+              description="Agrega tus productos uno por uno o sube muchos a la vez con una hoja CSV. Después podrás incluirlos en cualquier cotización con un par de clics."
+              ctaHref="/productos/nuevo"
+              ctaLabel="Crear primer producto"
+              secondaryHref="/productos/carga-masiva"
+              secondaryLabel="Carga masiva (CSV)"
+            />
+          </Card>
+        ) : (
         <Card>
           <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[800px]">
@@ -55,16 +69,6 @@ export default async function ProductosPage() {
               </tr>
             </thead>
             <tbody>
-              {productos?.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={8}
-                    className="px-4 py-10 text-center text-[var(--muted-foreground)]"
-                  >
-                    Aún no hay productos. Crea el primero para empezar a cotizar.
-                  </td>
-                </tr>
-              )}
               {productos?.map((p) => (
                 <tr key={p.id} className="border-t hover:bg-[var(--muted)]/50">
                   <td className="px-4 py-3 font-mono text-xs">{p.codigo}</td>
@@ -98,6 +102,7 @@ export default async function ProductosPage() {
           </table>
           </div>
         </Card>
+        )}
       </div>
     </AppShell>
   );

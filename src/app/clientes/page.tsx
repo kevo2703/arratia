@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Plus, Pencil, Upload } from "lucide-react";
+import { Plus, Pencil, Upload, Users } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
 import { PageHeader, Card, ButtonLink } from "@/components/ui";
+import { EmptyState } from "@/components/EmptyState";
 
 export const metadata = { title: "Clientes · Arratia" };
 export const dynamic = "force-dynamic";
@@ -38,6 +39,19 @@ export default async function ClientesPage() {
             </>
           }
         />
+        {(!clientes || clientes.length === 0) ? (
+          <Card>
+            <EmptyState
+              Icon={Users}
+              title="Aún no tienes clientes"
+              description="Crea tu primer cliente. Si es una empresa peruana, basta con el RUC — los datos los traemos automáticamente desde SUNAT."
+              ctaHref="/clientes/nuevo"
+              ctaLabel="Crear primer cliente"
+              secondaryHref="/clientes/carga-masiva"
+              secondaryLabel="Importar lista (CSV)"
+            />
+          </Card>
+        ) : (
         <Card>
           <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[720px]">
@@ -52,16 +66,6 @@ export default async function ClientesPage() {
               </tr>
             </thead>
             <tbody>
-              {clientes?.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={6}
-                    className="px-4 py-10 text-center text-[var(--muted-foreground)]"
-                  >
-                    Aún no hay clientes registrados.
-                  </td>
-                </tr>
-              )}
               {clientes?.map((c) => (
                 <tr key={c.id} className="border-t hover:bg-[var(--muted)]/50">
                   <td className="px-4 py-3 font-mono text-xs">{c.ruc || "—"}</td>
@@ -85,6 +89,7 @@ export default async function ClientesPage() {
           </table>
           </div>
         </Card>
+        )}
       </div>
     </AppShell>
   );

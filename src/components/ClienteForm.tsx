@@ -127,6 +127,7 @@ export function ClienteForm({ cliente }: { cliente?: Cliente }) {
               inputMode="numeric"
               maxLength={11}
               className={inputClasses + " font-mono"}
+              data-tour="ruc-input"
             />
           </Field>
           <div className="sm:col-span-2 flex items-end">
@@ -136,6 +137,7 @@ export function ClienteForm({ cliente }: { cliente?: Cliente }) {
               onClick={consultarRuc}
               disabled={consultando || ruc.length !== 11}
               className="w-full sm:w-auto justify-center"
+              data-tour="buscar-sunat"
             >
               <Search size={16} />
               {consultando ? "Consultando..." : "Buscar en SUNAT"}

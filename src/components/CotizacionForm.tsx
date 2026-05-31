@@ -8,6 +8,7 @@ import { Card, Field, Button, inputClasses, PageHeader } from "@/components/ui";
 import { formatMoney, calcularTotales } from "@/lib/utils";
 import type { Cliente, Producto, Cotizacion, CotizacionItem } from "@/lib/supabase/types";
 import { guardarCotizacion, type ItemInput } from "@/app/cotizaciones/actions";
+import { AsistentePrimeraCotizacion } from "./AsistentePrimeraCotizacion";
 
 interface Props {
   cotizacion?: Cotizacion & { items: CotizacionItem[] };
@@ -147,6 +148,14 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
 
   return (
     <div>
+      {!cotizacion && (
+        <AsistentePrimeraCotizacion
+          clienteId={clienteId}
+          itemsCount={items.length}
+          condicionesPago={condicionesPago}
+        />
+      )}
+
       <PageHeader
         title={cotizacion ? `Editar ${cotizacion.numero}` : "Nueva cotización"}
         description="Selecciona cliente, agrega productos y define condiciones"
@@ -163,6 +172,7 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
               onClick={handleSubmit}
               disabled={pending}
               className="flex-1 sm:flex-initial justify-center"
+              data-tour="cot-guardar"
             >
               {pending ? "Guardando..." : cotizacion ? "Guardar cambios" : "Crear cotización"}
             </Button>
@@ -182,6 +192,7 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
                 value={clienteId}
                 onChange={(e) => setClienteId(e.target.value)}
                 className={inputClasses}
+                data-tour="cot-cliente"
               >
                 <option value="">— Selecciona cliente —</option>
                 {clientes.map((c) => (
@@ -296,6 +307,7 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
                   }}
                   className={inputClasses + " sm:max-w-xs"}
                   defaultValue=""
+                  data-tour="cot-agregar-item"
                 >
                   <option value="">+ Agregar del catálogo...</option>
                   {productos

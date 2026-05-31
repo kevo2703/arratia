@@ -45,7 +45,7 @@ export function ProductoForm({
   return (
     <form action={handleSubmit}>
       {producto && <input type="hidden" name="id" value={producto.id} />}
-      <Card className="p-6 space-y-4">
+      <Card className="p-6 space-y-4" data-tour="producto-form">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field label="Código" required>
             <input
