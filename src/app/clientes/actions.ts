@@ -7,7 +7,9 @@ import { createClient } from "@/lib/supabase/server";
 export async function guardarCliente(formData: FormData) {
   const id = formData.get("id") as string | null;
   const sunatRaw = formData.get("sunat_consultado_en") as string | null;
-  const payload: Record<string, string | null> = {
+
+  // Payload básico: columnas que SIEMPRE existen
+  const payloadBase: Record<string, string | null> = {
     ruc: (formData.get("ruc") as string)?.trim() || "",
     razon_social: (formData.get("razon_social") as string).trim(),
     contacto: (formData.get("contacto") as string) || "",
@@ -15,6 +17,11 @@ export async function guardarCliente(formData: FormData) {
     correo: (formData.get("correo") as string) || "",
     direccion: (formData.get("direccion") as string) || "",
     notas: (formData.get("notas") as string) || "",
+    updated_at: new Date().toISOString(),
+  };
+
+  // Payload SUNAT: columnas que existen solo si MIGRATION_SUNAT.sql se ejecutó
+  const payloadSunat: Record<string, string | null> = {
     estado: (formData.get("estado") as string) || "",
     condicion: (formData.get("condicion") as string) || "",
     ubigeo: (formData.get("ubigeo") as string) || "",
@@ -22,17 +29,36 @@ export async function guardarCliente(formData: FormData) {
     provincia: (formData.get("provincia") as string) || "",
     distrito: (formData.get("distrito") as string) || "",
     sunat_consultado_en: sunatRaw && sunatRaw.length > 0 ? sunatRaw : null,
-    updated_at: new Date().toISOString(),
   };
 
+  const fullPayload = { ...payloadBase, ...payloadSunat };
   const supabase = await createClient();
 
-  if (id) {
-    const { error } = await supabase.from("clientes").update(payload).eq("id", id);
-    if (error) throw new Error(error.message);
-  } else {
-    const { error } = await supabase.from("clientes").insert(payload);
-    if (error) throw new Error(error.message);
+  async function trySave(payload: Record<string, string | null>) {
+    if (id) {
+      return supabase.from("clientes").update(payload).eq("id", id);
+    }
+    return supabase.from("clientes").insert(payload);
+  }
+
+  // Intentar con TODOS los campos primero
+  const { error: errFull } = await trySave(fullPayload);
+
+  if (errFull) {
+    // Si falló por columna inexistente (SUNAT migration pendiente) o por
+    // cualquier otra columna desconocida, hacer fallback al payload básico.
+    const looksLikeMissingColumn =
+      errFull.message.toLowerCase().includes("column") ||
+      errFull.message.toLowerCase().includes("does not exist") ||
+      errFull.message.toLowerCase().includes("schema");
+
+    if (looksLikeMissingColumn) {
+      console.warn("[guardarCliente] fallback a payload básico:", errFull.message);
+      const { error: errBase } = await trySave(payloadBase);
+      if (errBase) throw new Error(errBase.message);
+    } else {
+      throw new Error(errFull.message);
+    }
   }
 
   revalidatePath("/clientes");
