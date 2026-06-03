@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Trash2, Search, CheckCircle2 } from "lucide-react";
 import { Card, Field, Button, inputClasses } from "@/components/ui";
+import { isNextRedirect } from "@/lib/utils";
 import type { Cliente } from "@/lib/supabase/types";
 import { guardarCliente, eliminarCliente } from "@/app/clientes/actions";
 
@@ -80,6 +81,7 @@ export function ClienteForm({ cliente }: { cliente?: Cliente }) {
         await guardarCliente(formData);
         toast.success(cliente ? "Cliente actualizado" : "Cliente creado");
       } catch (e) {
+        if (isNextRedirect(e)) throw e;
         toast.error(e instanceof Error ? e.message : "Error al guardar");
       }
     });
@@ -93,6 +95,7 @@ export function ClienteForm({ cliente }: { cliente?: Cliente }) {
         await eliminarCliente(cliente.id);
         toast.success("Cliente eliminado");
       } catch (e) {
+        if (isNextRedirect(e)) throw e;
         toast.error(e instanceof Error ? e.message : "Error al eliminar");
       }
     });

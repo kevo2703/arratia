@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Plus, Trash2, GripVertical } from "lucide-react";
 import { Card, Field, Button, inputClasses, PageHeader } from "@/components/ui";
-import { formatMoney, calcularTotales } from "@/lib/utils";
+import { formatMoney, calcularTotales, isNextRedirect } from "@/lib/utils";
 import type { Cliente, Producto, Cotizacion, CotizacionItem } from "@/lib/supabase/types";
 import { guardarCotizacion, type ItemInput } from "@/app/cotizaciones/actions";
 import { AsistentePrimeraCotizacion } from "./AsistentePrimeraCotizacion";
@@ -141,6 +141,7 @@ export function CotizacionForm({ cotizacion, clientes, productos }: Props) {
         });
         toast.success(cotizacion ? "Cotización actualizada" : "Cotización creada");
       } catch (e) {
+        if (isNextRedirect(e)) throw e;
         toast.error(e instanceof Error ? e.message : "Error al guardar");
       }
     });

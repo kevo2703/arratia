@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Trash2 } from "lucide-react";
 import { eliminarCotizacion } from "@/app/cotizaciones/actions";
-import { cn } from "@/lib/utils";
+import { cn, isNextRedirect } from "@/lib/utils";
 
 interface Props {
   id: string;
@@ -42,6 +42,7 @@ export function EliminarCotizacionButton({
         if (redirectTo) router.push(redirectTo);
         else router.refresh();
       } catch (err) {
+        if (isNextRedirect(err)) throw err;
         toast.error(err instanceof Error ? err.message : "Error al eliminar");
       }
     });

@@ -1,6 +1,28 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+/**
+ * Detecta si una excepción es el NEXT_REDIRECT interno de Next.js (no es un error real).
+ * Next usa esta excepción para interrumpir la ejecución y forzar la redirección desde
+ * Server Actions. El cliente NO debe atraparla como error: debe re-arrojarla para que
+ * Next la maneje normalmente.
+ *
+ * Uso:
+ *   try { await miServerAction() } catch (e) {
+ *     if (isNextRedirect(e)) throw e;
+ *     toast.error("...");
+ *   }
+ */
+export function isNextRedirect(err: unknown): boolean {
+  return (
+    err !== null &&
+    typeof err === "object" &&
+    "digest" in err &&
+    typeof (err as { digest: unknown }).digest === "string" &&
+    (err as { digest: string }).digest.startsWith("NEXT_REDIRECT")
+  );
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

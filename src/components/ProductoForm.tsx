@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Trash2 } from "lucide-react";
 import { Card, Field, Button, inputClasses } from "@/components/ui";
+import { isNextRedirect } from "@/lib/utils";
 import type { Producto, Categoria } from "@/lib/supabase/types";
 import { guardarProducto, eliminarProducto } from "@/app/productos/actions";
 
@@ -24,6 +25,7 @@ export function ProductoForm({
         await guardarProducto(formData);
         toast.success(producto ? "Producto actualizado" : "Producto creado");
       } catch (e) {
+        if (isNextRedirect(e)) throw e;
         toast.error(e instanceof Error ? e.message : "Error al guardar");
       }
     });
@@ -37,6 +39,7 @@ export function ProductoForm({
         await eliminarProducto(producto.id);
         toast.success("Producto eliminado");
       } catch (e) {
+        if (isNextRedirect(e)) throw e;
         toast.error(e instanceof Error ? e.message : "Error al eliminar");
       }
     });
